@@ -7,7 +7,7 @@ before_install:
 
 addons:
   sonarcloud:
-    organization: "TM_REST_node" # the key of the org you chose at step #3
+    organization: "kth130-github" # the key of the org you chose at step #3
     token:
       secure: $SONAR # encrypted value of your token
 script:
