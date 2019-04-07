@@ -24,10 +24,7 @@ Authorization: Bearer {{token}}
 
 {
   "name": "Pera",
-  "signUpExpiration": null,
-  "maxTeams": 4,
-  "sport": 2,
-  "isPublic": true,
+  "sport": 0,
   "teams": [
   ]
 }
