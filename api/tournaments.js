@@ -232,9 +232,14 @@ async function unsubscribeRoute(req, res) {
 async function tournamentPatchRoute(req, res) {
   const validationMessage = []; // validateTournament(req.body);
   const { id } = req.params;
-  const { name, signUpExpiration, maxTeams, isPublic, rounds, sport } = req.body;
+  const { name, signUpExpiration, maxTeams, isPublic, rounds, sport, teams } = req.body;
   if (validationMessage.length > 0) {
     return res.status(400).json({ errors: validationMessage, success: false });
+  }
+
+  let teamsList = teams;
+  if (typeof teams !== 'object' && typeof teams === 'string') {
+    teamsList = teams.substr(1, teams.length - 2).split(',');
   }
   const { user } = req;
 
@@ -277,10 +282,18 @@ async function tournamentPatchRoute(req, res) {
   if (result.rowsCount === 0) {
     return res.status(404).json({ error: 'Tournament not found' });
   }
+
+  await query('DELETE FROM teams where tournamentid = $1', [id]);
+
+  const tq = 'INSERT INTO teams (name, tournamentId) values ($1, $2) RETURNING *';
+
+  const addTeams = teamsList.map(async team => query(tq, [xss(team.trim()), id]));
+
+  await Promise.all(addTeams);
+
   const tournament = await getTournament(id);
 
-  return res.status(200).json(tournament);
-
+  return res.status(201).json(tournament);
 }
 
 async function matchPatchRoute(req, res) {

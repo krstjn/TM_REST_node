@@ -7,11 +7,11 @@ before_install:
 
 addons:
   sonarcloud:
-    organization: "kth130-github" # the key of the org you chose at step #3
+    organization: "kth130-github"
     token:
-      secure: $SONAR # encrypted value of your token
+      secure: $SONAR
+
 script:
-  # other script steps might be done before running the actual analysis
   - sonar-scanner
   - npm test
 
