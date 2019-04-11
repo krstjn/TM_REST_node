@@ -245,7 +245,7 @@ async function tournamentPatchRoute(req, res) {
 
   const owner = await getTournamentOwner(id);
 
-  if (user.id !== owner.userId && !user.admin) {
+  if (user.id !== owner.userid && !user.admin) {
     return res.status(401).json({ error: 'Not authorized to edit this tournament' });
   }
   const updates = [
@@ -307,7 +307,7 @@ async function matchPatchRoute(req, res) {
 
   const owner = await getTournamentOwner(id);
 
-  if (user.id !== owner.userId && !user.admin) {
+  if (user.id !== owner.userid && !user.admin) {
     return res.status(401).json({ error: 'Not authorized to edit this match' });
   }
 
