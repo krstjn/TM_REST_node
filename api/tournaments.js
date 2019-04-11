@@ -362,14 +362,16 @@ async function startTournamentPostRoute(req, res) {
 
   const matches = [];
 
+  let currentRound = 1;
+
   for(let i = 0; i < tournament.rounds; i++) { // eslint-disable-line
     for (let j = 0; j < round.length; j++) { // eslint-disable-line
       for(let r = 0; r < round[j].length; r++) { // eslint-disable-line
         const home = i % 2 === 0 ? round[j][r][0] : round[j][r][1];
         const away = i % 2 === 0 ? round[j][r][1] : round[j][r][0];
-        const currentRound = (j + 1) + (i * tl);
         matches.push([home.id, home.name, away.id, away.name, currentRound, tournament.id]);
       }
+      currentRound++; //eslint-disable-line
     }
   }
   const q = `INSERT INTO matches(homeTeamId, homeTeamName, awayTeamId, awayTeamName, round, tournamentid)
